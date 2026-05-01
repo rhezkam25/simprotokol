@@ -17,8 +17,8 @@ class LayananPenugasan
             ->withCount(['tasks' => function ($query) {
                 $query->whereIn('status', ['PENDING', 'ON_PROGRESS']);
             }])
-            ->orderBy('tasks_count', 'asc') // Beban kerja terendah
-            ->orderBy('last_assigned_at', 'asc') // Round-robin: yang paling lama tidak diberi tugas
+            ->orderBy('tasks_count', 'asc')
+            ->orderBy('last_assigned_at', 'asc')
             ->first();
     }
 

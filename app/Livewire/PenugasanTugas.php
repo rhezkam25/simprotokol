@@ -43,7 +43,6 @@ class PenugasanTugas extends Component
     {
         $this->itineraryId = $itineraryId;
         
-        // Auto-recommend
         $recommended = $this->assignmentService->getRecommendedAssignee();
         $this->userId = $recommended ? $recommended->id : null;
         
@@ -68,10 +67,8 @@ class PenugasanTugas extends Component
             ]
         );
 
-        // Update user's last assigned time
         Pengguna::find($this->userId)->update(['last_assigned_at' => now()]);
         
-        // Update vehicle status
         if ($this->vehicleId) {
             Kendaraan::find($this->vehicleId)->update(['status' => 'IN_USE']);
         }
