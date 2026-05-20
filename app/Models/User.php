@@ -1,26 +1,18 @@
 <?php
 
 namespace App\Models;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles; //1.Import Spatie
-
-//#[Fillable(['name', 'email', 'password'])]
-//#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles; //add HasRoles spatie
+    use HasFactory, Notifiable; // Spatie HasRoles sudah dihapus
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',          // Tambahkan role
         'phone_number', 
         'is_active',    
     ];
@@ -29,7 +21,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-   // 4. Pastikan tipe data is_active dibaca sebagai boolean
+
     protected function casts(): array
     {
         return [
@@ -37,5 +29,18 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_active' => 'boolean', 
         ];
+    }
+
+    // --- FUNGSI BANTUAN UNTUK CEK ROLE MANUAL ---
+    public function isAdmin() {
+        return $this->role === 'Admin';
+    }
+
+    public function isKoordinator() {
+        return $this->role === 'Koordinator';
+    }
+
+    public function isAnggota() {
+        return $this->role === 'Anggota';
     }
 }
